@@ -188,8 +188,10 @@ public class TicTacToe implements ActionListener {
 	private void results(String player, List<JButton> buttonList) {
 		if (player == "") {
 			gameTitle.setText("Draw");
-		} else {			
-			gameTitle.setText(player+" Wins");
+		} else if (player == "X") {			
+			gameTitle.setText(player1_name+" Wins");
+		} else {
+			gameTitle.setText(player2_name+" Wins");
 		}
 		
 		for (JButton button : buttonList) {
