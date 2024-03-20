@@ -1,0 +1,9 @@
+import java.awt.Font;
+
+import javax.swing.JButton;
+
+public class GameButton extends JButton {
+	setFont(new Font("Courier", Font.BOLD, 80));
+	setFocusable(false);
+	addActionListener(this);
+}

@@ -1,0 +1,10 @@
+import java.awt.Font;
+
+import javax.swing.JLabel;
+
+public class GameText extends JLabel {
+
+	GameText(){
+		setFont(new Font("MV Boli", Font.BOLD, 20));
+	}
+}

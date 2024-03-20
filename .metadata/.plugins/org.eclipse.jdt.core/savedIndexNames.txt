@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\Advan\eclipse-workspace\test coding\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+3023100672.index
+3413270776.index

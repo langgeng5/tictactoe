@@ -7,22 +7,24 @@ import javax.swing.*;
 
 public class TicTacToe implements ActionListener {
 
-	Random random = new Random();
-	JFrame frame = new JFrame();
+	GameFrame frame = new GameFrame();
 	JPanel title_panel = new JPanel();
-	JPanel button_panel = new JPanel();
-	JLabel textField = new JLabel();
-	int gridCount = 4;
-	JButton[][] buttons = new JButton[gridCount][gridCount];
-	boolean player1_turn = true;
+	JPanel board_panel = new JPanel();
 	
-	int time_per_turn = 5;
+	GameTitle gameTitle = new GameTitle();
 	
+	int gridCount = 3;
+	GameButton[][] buttons = new GameButton[gridCount][gridCount];
+	
+	boolean player1_turn;
 	String player1_name = "Player 1";
 	String player2_name = "Player 2";
-	
 	Color player1_color = Color.BLACK;
 	Color player2_color = Color.BLACK;
+	
+	TicTacToe(){
+		init();
+	}
 	
 	TicTacToe(int gridCount, String player1_name, String player2_name, Color player1_color, Color player2_color){
 		this.gridCount = gridCount;
@@ -31,53 +33,42 @@ public class TicTacToe implements ActionListener {
 		this.player1_color = player1_color;
 		this.player2_color = player2_color;
 		
-		this.buttons = new JButton[gridCount][gridCount];
+		this.buttons = new GameButton[gridCount][gridCount];
 		
-		//frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800,800);
-		frame.getContentPane().setBackground(new Color(50,50,50));
-		frame.setLayout(new BorderLayout());
-		frame.setVisible(true);
-		
-		//textField
-		textField.setBackground(new Color(25,25,25));
-		textField.setForeground(new Color(25,255,0));
-		textField.setFont(new Font("Ink Free", Font.BOLD, 75));
-		textField.setHorizontalAlignment(JLabel.CENTER);
-		textField.setText("TIC TAC TOE");
-		textField.setOpaque(true);
-		
-		//title_panel
-		title_panel.setLayout(new BorderLayout());
-		title_panel.setBounds(0,0,800,100);
-		
-		//button_panel
-		button_panel.setLayout(new GridLayout(gridCount,gridCount));
-		button_panel.setBackground(new Color(150,150,150));
-		
-		//generate button
-		for (int i = 0; i < (gridCount); i++) {
-			for (int j = 0; j < (gridCount); j++) {
-				buttons[i][j] = new JButton();
-				buttons[i][j].setFont(new Font("MV Boli", Font.BOLD, 120));
-				buttons[i][j].setFocusable(false);
-				buttons[i][j].addActionListener(this);
-				
-				button_panel.add(buttons[i][j]);
-			}
-		}
-		
-		title_panel.add(textField);
-		frame.add(title_panel, BorderLayout.NORTH);
-		frame.add(button_panel);
-		
-		textField.setText(player1_name+" turn");
+		init();
 	}
 	
+	private void init() {
+		
+		setupTitle();
+		
+		setupBoard();
+		
+		frame.add(title_panel, BorderLayout.NORTH);
+		frame.add(board_panel);
+		
+		firstTurn();
+		
+	}
+	
+	private void firstTurn() {
+		gameTitle.setText(player1_name+"'s turn");
+		player1_turn = true;
+	}
+
+	private void setupBoard() {
+		board_panel.setLayout(new GridLayout(gridCount,gridCount));
+		board_panel.setBackground(new Color(150,150,150));
+		generateButtons();
+	}
+
+	private void setupTitle() {
+		title_panel.setLayout(new BorderLayout());
+		title_panel.add(gameTitle);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		for (int i = 0; i < (gridCount); i++) {
 			for (int j = 0; j < (gridCount); j++) {
 				if (e.getSource() == buttons[i][j]) {
@@ -87,32 +78,46 @@ public class TicTacToe implements ActionListener {
 							buttons[i][j].setForeground(player1_color);
 							buttons[i][j].setText("X");
 							player1_turn = false;
-							textField.setText(player2_name+" turn");
+							gameTitle.setText(player2_name+"'s turn");
 						}
 					} else {
 						if (buttons[i][j].getText() == "") {
 							buttons[i][j].setForeground(player2_color);
 							buttons[i][j].setText("O");
 							player1_turn = true;
-							textField.setText(player1_name+" turn");
+							gameTitle.setText(player1_name+"'s turn");
 						}
 					}
-					check();
+					checkBoard();
 				}
 			}
 		}
 	}
+	
+	private void generateButtons() {
+		for (int i = 0; i < (gridCount); i++) {
+			for (int j = 0; j < (gridCount); j++) {
+				buttons[i][j] = new GameButton();
+				buttons[i][j].addActionListener(this);
+				
+				board_panel.add(buttons[i][j]);
+			}
+		}
+	}
 
-	public void check() {
+	private void checkBoard() {
 		List<JButton> verticalList = new ArrayList<JButton>();
 		List<JButton> horizontalList = new ArrayList<JButton>();
 		List<JButton> diagonal1List = new ArrayList<JButton>();
 		List<JButton> diagonal2List = new ArrayList<JButton>();
+		
 		String verticalVal = "X";
 		String horizontalVal = "X";
 		String diagonal1Val = "X";
 		String diagonal2Val = "X";
+		
 		int emptyGrid = 0;
+		
 		for (int i = 0; i < gridCount; i++) {
 			horizontalList.clear();
 			verticalList.clear();
@@ -180,11 +185,11 @@ public class TicTacToe implements ActionListener {
 		}
 	}
 	
-	public void results(String player, List<JButton> buttonList) {
+	private void results(String player, List<JButton> buttonList) {
 		if (player == "") {
-			textField.setText("Draw");
+			gameTitle.setText("Draw");
 		} else {			
-			textField.setText(player+" Wins");
+			gameTitle.setText(player+" Wins");
 		}
 		
 		for (JButton button : buttonList) {

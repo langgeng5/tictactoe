@@ -6,9 +6,9 @@ public class Main {
 
 		SwingUtilities.invokeLater(()->{
 			Menu menu = new Menu();
+//			TicTacToe ticTacToe = new TicTacToe();
 		});
 		
-//		TicTacToe ticTacToe = new TicTacToe(4);
 		
 	}
 

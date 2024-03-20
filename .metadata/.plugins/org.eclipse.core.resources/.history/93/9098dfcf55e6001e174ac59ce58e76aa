@@ -1,0 +1,16 @@
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+
+public class GameLabel extends JLabel{
+
+	GameLabel(){
+		gameLabel.setBackground(new Color(25,25,25));
+		gameLabel.setForeground(new Color(25,255,0));
+		gameLabel.setFont(new Font("Ink Free", Font.BOLD, 75));
+		gameLabel.setHorizontalAlignment(JLabel.CENTER);
+		gameLabel.setText("TIC TAC TOE");
+		gameLabel.setOpaque(true);
+	}
+}
